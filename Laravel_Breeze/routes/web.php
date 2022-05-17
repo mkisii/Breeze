@@ -22,7 +22,7 @@ Route::get('/admin/create', [PermissionController::class, 'create'])->name('admi
 Route::post('/admin/store', [PermissionController::class, 'store'])->name('admin.store');
 Route::get('/admin{id}/edit', [PermissionController::class, 'edit'])->name('admin.edit');
 Route::get('/admin/show', [PermissionController::class, 'show'])->name('admin.show');
-Route::post('/admin{id}', [PermissionController::class, 'update'])->name('admin.update');
+Route::put('/admin{id}', [PermissionController::class, 'update'])->name('admin.update');
 Route::delete('/admin/destroy', [PermissionController::class, 'destroy'])->name('admin.destroy');
 
 

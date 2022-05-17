@@ -22,7 +22,7 @@
                     @endif
                 </div>
                 <div class="w-full px-6 py-4 bg-white overflow-hidden">
-                    <form method="POST" action="{{ route('admin.update') }}">
+                    <form method="POST" action="{{ route('admin.update',$permission->id) }}">
                         @csrf
                         @method('PUT')
                         <div class="py-2">
