@@ -4,12 +4,12 @@
             {{ __('Permissions') }}
         </h2>
     </x-slot>
-    <div class="py-12">
+    <div class="py-12 bg-gray-700">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-gray-400 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="px-6">
                     <h1
-                        class="inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200 py-4 block sm:inline-block flex">
+                        class="inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200 py-4  sm:inline-block flex">
                         {{ __('View permission') }}</h1>
                     <a href="{{ route('admin.index') }}"
                         class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">{{ __('<< Back to all permission') }}</a>
@@ -22,31 +22,31 @@
                     @endif
                 </div>
                 <div class="w-full px-6 py-4">
-                    <div class="min-w-full border-b border-gray-200 shadow">
+                    <div class="min-w-full border-b bg-gray-400 border-gray-200 shadow">
                         <table class="table-fixed w-full text-sm">
 
                             @foreach ($permissions as $permission)
-                                <tbody class="bg-white dark:bg-slate-800">
+                                <tbody class="bg-gray-400 dark:bg-slate-800">
                                     <tr>
                                         <td
-                                            class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                                            class="border-b border-slate-100 dark:border-slate-400 p-4 pl-8 text-slate-800 dark:text-slate-400">
                                             {{ __('Name') }}
                                         </td>
 
                                         <td
-                                            class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">
+                                            class="border-b border-slate-100 dark:border-slate-400 p-4 text-slate-800 dark:text-slate-400 ">
                                             {{ $permission->name }}
                                         </td>
 
                                     </tr>
                                     <tr>
                                         <td
-                                            class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                                            class="border-b border-slate-100 dark:border-slate-400 p-4 pl-8 text-slate-800 dark:text-slate-400">
                                             {{ __('Created') }}
                                         </td>
 
                                         <td
-                                            class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">
+                                            class="border-b border-slate-100 dark:border-slate-400 p-4 text-slate-800 dark:text-slate-400">
                                             {{ $permission->created_at }}
                                         </td>
                                     </tr>
