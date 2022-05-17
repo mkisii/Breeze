@@ -84,12 +84,12 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function edit(Permission $permission)
+    public function edit(Permission $permission, $id)
 
     {
-        $permissions = Permission::find($permission->id);
+        $permission = Permission::find($id);
 
-        return view('admin.edit',compact('permissions'));
+        return view('admin.edit',compact('permission'));
     }
 
     
@@ -101,16 +101,22 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request, Permission $permission, $id)
     {
         // $request->validate([
         //     'name' => 'required|string|max:255|unique:'.config('permission.table_names.permissions', 'permissions').',name,'.$permission->id,
         // ]);
 
         #
-        $permissions = Permission::find($permission->id);
+        $permissions = Permission::find($id);
+
+      
+        // $question->title = $request->input('title');
+        // $question->description = $request->input('description');
+        // $question->save();
 
         $permissions->update($request->all());
+        
         return redirect()->route('admin.index')
                         ->with('message','Permission updated successfully.');
     }
