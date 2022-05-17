@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/* Home Routes */
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+/* Admin Panel Routes */
 Route::get('/admin', [PermissionController::class, 'index'])->name('admin.index');
 Route::get('/admin/create', [PermissionController::class, 'create'])->name('admin.create');
 Route::post('/admin/store', [PermissionController::class, 'store'])->name('admin.store');
@@ -27,7 +29,7 @@ Route::delete('/admin/destroy', [PermissionController::class, 'destroy'])->name(
 
 
 
-
+/* Dashboard Raoutes */
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');

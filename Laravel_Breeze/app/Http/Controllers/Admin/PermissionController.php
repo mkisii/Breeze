@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Pagination\Paginator;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +20,9 @@ class PermissionController extends Controller
     {
         $permissions = Permission::all();
 
-        
-        return view('admin.index',compact('permissions'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
-        
+        return view('admin.index',compact('permissions'));
+
+
     }
 
     /**
@@ -72,10 +73,10 @@ class PermissionController extends Controller
         $permissions = Permission::all();
         // dd($permission);
 
-    
+
 
         return view('admin.show', compact('permissions'));
-        
+
     }
 
     /**
@@ -92,7 +93,7 @@ class PermissionController extends Controller
         return view('admin.edit',compact('permission'));
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -110,13 +111,13 @@ class PermissionController extends Controller
         #
         $permissions = Permission::find($id);
 
-      
+
         // $question->title = $request->input('title');
         // $question->description = $request->input('description');
         // $question->save();
 
         $permissions->update($request->all());
-        
+
         return redirect()->route('admin.index')
                         ->with('message','Permission updated successfully.');
     }
@@ -131,5 +132,15 @@ class PermissionController extends Controller
         $permission->delete();
         return redirect()->route('admin.index')
                         ->with('message','Permission deleted successfully');
+    }
+
+    /* Implementing tha access policies within the controller */
+
+    function __construct()
+    {
+         $this->middleware('can:permission list', ['only' => ['index','show']]);
+         $this->middleware('can:permission create', ['only' => ['create','store']]);
+         $this->middleware('can:permission edit', ['only' => ['edit','update']]);
+         $this->middleware('can:permission delete', ['only' => ['destroy']]);
     }
 }
