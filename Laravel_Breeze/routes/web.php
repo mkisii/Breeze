@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,23 @@ Route::get('/admin{id}/edit', [PermissionController::class, 'edit'])->name('admi
 Route::get('/admin/show', [PermissionController::class, 'show'])->name('admin.show');
 Route::put('/admin{id}', [PermissionController::class, 'update'])->name('admin.update');
 Route::delete('/admin/destroy', [PermissionController::class, 'destroy'])->name('admin.destroy');
+
+/* Roles Routes */
+Route::get('/role',[RoleController::class, 'index'])->name('admin.role.index');
+Route::get('/role/create',[RoleController::class, 'create'])->name('role.create');
+Route::post('/role/store',[RoleController::class, 'store'])->name('role.store');
+Route::get('/role{id}/edit',[RoleController::class, 'edit'])->name('role.edit');
+Route::get('/role/show',[RoleController::class, 'show'])->name('role.show');
+Route::put('/role{id}',[RoleController::class, 'update'])->name('role.update');
+Route::delete('/role/destroy',[RoleController::class, 'destroy'])->name('role.destroy');
+
+
+
+// Route::resource('/role', 'RoleController',[
+//         'names' => [
+//         'index' => 'admin.role.index',
+
+//     ]]);
 
 
 
