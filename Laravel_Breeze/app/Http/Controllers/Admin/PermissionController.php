@@ -18,11 +18,26 @@ class PermissionController extends Controller
     public function index()
 
     {
-        $permissions = Permission::all();
+        $permissions = Permission::latest();
+        if (request()->has('search')) {
+            $permissions->where('name', 'Like', '%' . request()->input('search') . '%');
+        }
+        
+        if (request()->query('sort')) {
+            $attribute = request()->query('sort');
+            $sort_order = 'ASC';
+            if (strncmp($attribute, '-', 1) === 0) {
+                $sort_order = 'DESC';
+                $attribute = substr($attribute, 1);
+            }
+            $permissions->orderBy($attribute, $sort_order);
+        } else {
+            $permissions->latest();
+        }
 
-        return view('admin.index',compact('permissions'));
-
-
+        $permissions = $permissions->paginate(10);
+        return view('admin.index', compact('permissions'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -45,7 +60,7 @@ class PermissionController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|string|max:255|unique:'.config('permission.table_names.permissions', 'permissions').',name',
+            'name' => 'required|string|max:255|unique:' . config('permission.table_names.permissions', 'permissions') . ',name',
         ]);
 
         $permission = new Permission();
@@ -56,8 +71,7 @@ class PermissionController extends Controller
         $permission->save();
 
         return redirect()->route('admin.index')
-            ->with('message','Permission created successfully.');
-
+            ->with('message', 'Permission created successfully.');
     }
 
     /**
@@ -76,7 +90,6 @@ class PermissionController extends Controller
 
 
         return view('admin.show', compact('permissions'));
-
     }
 
     /**
@@ -90,7 +103,7 @@ class PermissionController extends Controller
     {
         $permission = Permission::find($id);
 
-        return view('admin.edit',compact('permission'));
+        return view('admin.edit', compact('permission'));
     }
 
 
@@ -119,7 +132,7 @@ class PermissionController extends Controller
         $permissions->update($request->all());
 
         return redirect()->route('admin.index')
-                        ->with('message','Permission updated successfully.');
+            ->with('message', 'Permission updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
@@ -131,16 +144,16 @@ class PermissionController extends Controller
     {
         $permission->delete();
         return redirect()->route('admin.index')
-                        ->with('message','Permission deleted successfully');
+            ->with('message', 'Permission deleted successfully');
     }
 
     /* Implementing tha access policies within the controller */
 
     function __construct()
     {
-         $this->middleware('can:permission list', ['only' => ['index','show']]);
-         $this->middleware('can:permission create', ['only' => ['create','store']]);
-         $this->middleware('can:permission edit', ['only' => ['edit','update']]);
-         $this->middleware('can:permission delete', ['only' => ['destroy']]);
+        $this->middleware('can:permission list', ['only' => ['index', 'show']]);
+        $this->middleware('can:permission create', ['only' => ['create', 'store']]);
+        $this->middleware('can:permission edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:permission delete', ['only' => ['destroy']]);
     }
 }
